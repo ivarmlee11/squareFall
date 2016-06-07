@@ -2,28 +2,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 var myGamePiece;
 var myObstacles = [];
+var score = 0;
+var scoreBox =  document.getElementById('score');
 
-function startGame() {
-    myGamePiece = new component(30, 30, "lightgray", 120, 10);
-    myGameArea.start();
-}
+
 
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+        this.canvas.width = 300;
+        this.canvas.height = 350;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
+        window.addEventListener('keydown', function (e) {
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = true;
+        })
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = false;
+        })
         },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop : function() {
         clearInterval(this.interval);
+        document.body.innerHTML = "You got " +  score + " points!";
     }
+}
+
+function startGame() {
+    myGamePiece = new component(15, 15, "lightgray", 120, 10);
+    myGameArea.start();
 }
 
 function component(width, height, color, x, y) {
@@ -55,6 +67,9 @@ function component(width, height, color, x, y) {
         if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
             crash = false;
         }
+        if ((mybottom > myGameArea.canvas.height) || (mytop < 0) || (myright > myGameArea.canvas.width) || (myleft < 0)) {
+            myGameArea.stop();
+        }
         return crash;
     }
 }
@@ -67,10 +82,29 @@ function updateGameArea() {
             return;
         }
     }
+
     myGameArea.clear();
+    if (!myGameArea.keys) {
+        scoreBox.innerHTML = "Use the arrow keys to dodge the platforms"
+    }
+    else if (myGameArea.keys[37]) {
+            myGamePiece.speedX = -2.5;
+        }
+    else if (myGameArea.keys[39]) {
+            myGamePiece.speedX = 2.5;
+        }
+    else if (myGameArea.keys[38]) {
+            myGamePiece.speedY = -2.5;
+        }
+    else if (myGameArea.keys[40]) {
+            myGamePiece.speedY = 2.5;
+        }
+
     myGameArea.frameNo += 1;
-    if (myGameArea.frameNo == 1 || everyinterval(150)) {
-        console.log(myObstacles);
+    if (myGameArea.frameNo == 1 || everyinterval(60)) {
+        score += 20;
+        scoreBox.innerHTML = score;
+
         x = myGameArea.canvas.width;
         midnWidth = 20;
         maxWidth = 200;
@@ -78,45 +112,26 @@ function updateGameArea() {
         minGap = 50;
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(width, 10, "green", 0, myGameArea.canvas.width));
-        myObstacles.push(new component(width, 10, "green", 0, myGameArea.canvas.width));
-        // myObstacles.push(new component(width, 10 - width - gap, "green", width + gap, myGameArea.canvas.width));
+        myObstacles.push(new component(maxWidth - gap, 10, "red", 200, 330));
+        myObstacles.push(new component(width, 10, "red", 0, 400));
     }
+
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].y += -1;
+        myObstacles[i].y += -2;
         myObstacles[i].update();
     }
+
     myGamePiece.newPos();
     myGamePiece.update();
 }
+
+
 
 function everyinterval(n) {
     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
     return false;
 }
 
-function moveup() {
-    myGamePiece.speedY = -1;
-}
 
-function movedown() {
-    myGamePiece.speedY = 1;
-}
-
-function moveleft() {
-    myGamePiece.speedX = -1;
-}
-
-function moveright() {
-    myGamePiece.speedX = 1;
-}
-
-function clearmove() {
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;
-}
-
-
-   console.log("DOM fully loaded and parsed");
-   startGame();
-  });
+startGame();
+});
