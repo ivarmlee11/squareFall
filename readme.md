@@ -2,8 +2,8 @@
 
 #Commands
 
-Run npm install to install dependencies
-npm start - start the BrowserSync server
+1. Run npm install to install dependencies
+2. npm start - start the BrowserSync server
 
 #How to play
 
