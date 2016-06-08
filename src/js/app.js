@@ -84,20 +84,25 @@ function updateGameArea() {
     }
 
     myGameArea.clear();
+
     if (!myGameArea.keys) {
         scoreBox.innerHTML = "Use the arrow keys to dodge the platforms"
     }
     else if (myGameArea.keys[37]) {
-            myGamePiece.speedX = -2.5;
+            myGamePiece.speedX = -.5;
+            myGamePiece.x = myGamePiece.x - 2.5;
         }
     else if (myGameArea.keys[39]) {
-            myGamePiece.speedX = 2.5;
+            myGamePiece.speedX = .5;
+            myGamePiece.x = myGamePiece.x + 2.5;
         }
     else if (myGameArea.keys[38]) {
-            myGamePiece.speedY = -2.5;
+            myGamePiece.speedY = -.5;
+            myGamePiece.y = myGamePiece.y - 2.5;
         }
     else if (myGameArea.keys[40]) {
-            myGamePiece.speedY = 2.5;
+            myGamePiece.speedY = .5;
+            myGamePiece.y = myGamePiece.y + 2.5;
         }
 
     myGameArea.frameNo += 1;
