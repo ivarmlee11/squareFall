@@ -13,10 +13,10 @@ canvas {
     border: 1px solid black;
 }
 
-#footer {
-
+.hiddenPlay {
+  display: none;
 }
 
-#messageBox {
-
+.showPlayButton {
+  display: block;
 }
