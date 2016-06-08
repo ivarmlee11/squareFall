@@ -1,9 +1,11 @@
+
 document.addEventListener('DOMContentLoaded', function() {
-  var myGamePiece;
+
+  var playerObject;
+  var updateBoardInterval;
   var platforms = [];
   var score = 0;
   var scoreBox = document.getElementById('score');
-  var updateBoardInterval;
   var button = document.getElementById('reset');
 
   var myGameArea = {
@@ -16,10 +18,14 @@ document.addEventListener('DOMContentLoaded', function() {
       this.ticker = 0;
       updateBoardInterval = setInterval(updateGameArea, 20);
       window.addEventListener('keydown', function (e) {
+        // a property of .keys is checked to see if it exists or if it should be set to
+        // an empty array
         myGameArea.keys = (myGameArea.keys || []);
+        // the keydown event is passed as a value to the keys property
         myGameArea.keys[e.keyCode] = true;
       });
       window.addEventListener('keyup', function (e) {
+        // when the key is released it is removed from the myGameArea
         myGameArea.keys[e.keyCode] = false;
       });
     },
@@ -33,8 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
     clearInterval(updateBoardInterval);
     scoreBox.innerHTML = 'You got ' + score + ' points!';
     button.className = ('');
-
-// firebase high score
   };
 
   var PieceConstructor = function(width, height, color, x, y) {
@@ -77,9 +81,13 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   var startGame = function() {
-    myGamePiece = new PieceConstructor(15, 15, 'lightgray', 120, 10);
+    playerObject = new PieceConstructor(15, 15, 'lightgray', 120, 10);
     myGameArea.startTheGame();
   };
+
+  // checks if the ticker and the time are equal
+  // if they are equal, this timeForObstacleRelease runs
+  // the code that creates new objects and draws them
 
   var timerForObstacleRelease = function(time) {
     if ((myGameArea.ticker / time) % 1 === 0) {
@@ -88,7 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
     return false;
   };
 
-// controls player movement, checks for hits
+  // controls player movement, checks for hits
+
   var updateGameArea = function() {
     var width;
     var gap;
@@ -98,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var maxGap;
 
     for (var j = 0; j < platforms.length; j += 1) {
-      if (myGamePiece.collideCheck(platforms[j])) {
+      if (playerObject.collideCheck(platforms[j])) {
         stopGame();
       }
     }
@@ -108,17 +117,17 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!myGameArea.keys) {
       scoreBox.innerHTML = 'Use the arrow keys to dodge the platforms';
     } else if (myGameArea.keys[37]) {
-      myGamePiece.sideSpeed = -0.5;
-      myGamePiece.x = myGamePiece.x - 2.5;
+      playerObject.sideSpeed = -0.5;
+      playerObject.x = playerObject.x - 2.5;
     } else if (myGameArea.keys[39]) {
-      myGamePiece.sideSpeed = 0.5;
-      myGamePiece.x = myGamePiece.x + 2.5;
+      playerObject.sideSpeed = 0.5;
+      playerObject.x = playerObject.x + 2.5;
     } else if (myGameArea.keys[38]) {
-      myGamePiece.verticalSpeed = -0.5;
-      myGamePiece.y = myGamePiece.y - 2.5;
+      playerObject.verticalSpeed = -0.5;
+      playerObject.y = playerObject.y - 2.5;
     } else if (myGameArea.keys[40]) {
-      myGamePiece.verticalSpeed = 0.5;
-      myGamePiece.y = myGamePiece.y + 2.5;
+      playerObject.verticalSpeed = 0.5;
+      playerObject.y = playerObject.y + 2.5;
     }
     myGameArea.ticker += 1;
 
@@ -127,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
       scoreBox.innerHTML = score;
 
     // allows for random obstacle length
+
       minWidth = 20;
       maxWidth = 200;
       width = Math.floor(Math.random() * (maxWidth - minWidth) + minWidth);
@@ -139,17 +149,19 @@ document.addEventListener('DOMContentLoaded', function() {
       platforms.push(new PieceConstructor(width, 4, 'red', 0, 430));
       // obstacle that appears every 100 points
       if (score % 100 === 0) {
-        platforms.push(new PieceConstructor((width / 2), 10, 'red', (width - gap), 530));
+        platforms.push(new PieceConstructor((width / 4), 10, 'red', (width - gap), 530));
       }
     }
-// for loop that iterates through array of objects and brings them to the top of the canvas
+
+    // for loop that iterates through array of objects and brings them to the top of the
+
     for (var i = 0; i < platforms.length; i += 1) {
       platforms[i].y += -2;
       platforms[i].update();
     }
 
-    myGamePiece.position();
-    myGamePiece.update();
+    playerObject.position();
+    playerObject.update();
   };
   startGame();
   button.addEventListener('click', function() {
