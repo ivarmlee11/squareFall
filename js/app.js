@@ -30,6 +30,7 @@ var myGameArea = {
     stop : function() {
         clearInterval(this.interval);
         document.body.innerHTML = "You got " +  score + " points!";
+        // firebase high score
     }
 }
 
@@ -79,7 +80,6 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGameArea.stop();
-            return;
         }
     }
 
@@ -112,8 +112,11 @@ function updateGameArea() {
         minGap = 50;
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(maxWidth - gap, 10, "red", 200, 330));
-        myObstacles.push(new component(width, 10, "red", 0, 400));
+        myObstacles.push(new component(width, 10, "red", x-width, 330));
+        myObstacles.push(new component(width/2, 10, "red", 0, 430));
+        if(score % 100 === 0) {
+            myObstacles.push(new component(width/1.6    , 10, "green", width - gap, 530));
+        }
     }
 
     for (i = 0; i < myObstacles.length; i += 1) {
@@ -127,8 +130,10 @@ function updateGameArea() {
 
 
 
-function everyinterval(n) {
-    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+function everyinterval(time) {
+    if ((myGameArea.frameNo / time) % 1 == 0) {
+        return true;
+    }
     return false;
 }
 
