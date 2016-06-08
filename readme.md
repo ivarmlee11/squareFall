@@ -1,9 +1,9 @@
 #Sqaure Fall
 
 #Commands
-
-1. Run npm install to install dependencies
-2. npm start - start the BrowserSync server
+1. Clone the repo and **CD** in to it
+2. **Run npm install** to install dependencies
+3. **npm start** - start the BrowserSync server
 
 #How to play
 
