@@ -1,7 +1,7 @@
 body {
   padding-top: 100px;
   text-align: center;
-  font-size: 5em;
+  font-size: 1em;
 }
 
 
@@ -11,6 +11,12 @@ canvas {
     display: block;
     background-color: black;
     border: 1px solid black;
+}
+
+#score {
+  display: inline-block;
+  margin: 0 auto;
+  width: 30%;
 }
 
 .hiddenPlay {
