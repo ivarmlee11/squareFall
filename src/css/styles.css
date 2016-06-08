@@ -1,5 +1,4 @@
 body {
-  padding-top: 100px;
   text-align: center;
   font-size: 1em;
 }
@@ -12,16 +11,11 @@ canvas {
     border: 1px solid black;
 }
 
-#score {
-  display: inline-block;
+#container {
+  width: 25%;
   margin: 0 auto;
-  width: 30%;
 }
 
-.hiddenPlay {
+.hideThis {
   display: none;
-}
-
-.showPlayButton {
-  display: block;
 }
