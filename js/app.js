@@ -1,4 +1,4 @@
-  // establish a firebase object to store and read data from
+  // establish a firebase ref from which I can store and read data
 
   var myFirebaseRef = new Firebase('https://squarefall.firebaseio.com/');
   document.addEventListener('DOMContentLoaded', function() {
@@ -47,12 +47,22 @@
       }
     };
 
+    // makes a new child in the firebase called the name the player
+    // entered at prompt
+    // inside of the object there are two properties
+    // one prop contains the score while the other contains the
+    // player name
+
     var firebaseInteraction = function() {
       myFirebaseRef.child(playerName).set({
         score: score,
         player: playerName
       });
     };
+
+    // takes a snapshot of the firebase json file and
+    // a for in loop iterates through the keys and pushes them to an empty array
+    /// the array is then sorted based on the score property from highest to lowest
 
     var leaderBoardDisplay = function() {
       myFirebaseRef.on('value', function(snapshot) {
@@ -73,10 +83,10 @@
       });
     };
 
-    // stop game function, the 'stopped' flag is set to true to allow the
-    // following functions to run in the if statement
+    // stopped flg is changed to true here to stop the game
 
     var stopGame = function() {
+      // the interval of 20 mili seconds is stopped
       clearInterval(updateBoardInterval);
       if (!stopped) {
         stopped = true;
@@ -174,6 +184,8 @@
       var minGap;
       var maxGap;
 
+      // checks for collisions with platforms
+
       for (var j = 0; j < platforms.length; j += 1) {
         if (playerObject.collideCheck(platforms[j])) {
           stopGame();
@@ -181,6 +193,8 @@
       }
 
       // this clears the 'old' objects
+      // otherwise you'd see a ton of objects painted
+      // to the screen with trailing tails
 
       myGameArea.clear();
 
