@@ -28,10 +28,8 @@
         this.ticker = 0;
         updateBoardInterval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
-
           // a property of .keys is checked to see if it exists or if it should be set to
           // an empty array
-
           myGameArea.keys = (myGameArea.keys || []);
 
           // the keydown event is passed as a value to the keys property
@@ -39,9 +37,7 @@
           myGameArea.keys[e.keyCode] = true;
         });
         window.addEventListener('keyup', function (e) {
-
           // when the key is released it is removed from the myGameArea
-
           myGameArea.keys[e.keyCode] = false;
         });
       },
@@ -52,24 +48,25 @@
 
     var firebaseInteraction = function() {
       myFirebaseRef.child(playerName).set({
-          score: score,
-          player: playerName
+        score: score,
+        player: playerName
       });
     };
 
     var leaderBoardDisplay = function() {
       myFirebaseRef.on('value', function(snapshot) {
         var fireData = snapshot.val();
-        for(var key in fireData) {
+        for (var key in fireData) {
           jsonDataArrayToBeSorted.push(fireData[key]);
         }
-          var sortedJson = jsonDataArrayToBeSorted.sort(function(obj1, obj2) {
-            return obj2.score - obj1.score;
-          });
-          console.log(sortedJson);
-          for(var l = 0; l < 10; l++) {
-            document.write(l + 1 + ' ' + sortedJson[l].player + ' got ' + sortedJson[l].score + ' points!' + '</br>');
-          }
+        var sortedJson = jsonDataArrayToBeSorted.sort(function(obj1, obj2) {
+          return obj2.score - obj1.score;
+        });
+        console.log(sortedJson);
+        for (var l = 0; l < 10; l++) {
+          document.write(l + 1 + ' ' + sortedJson[l].player + ' got '
+            + sortedJson[l].score + ' points!' + '</br>');
+        }
       }, function (errorObject) {
         console.log('The read failed: ' + errorObject.code);
       });
@@ -80,7 +77,7 @@
 
     var stopGame = function() {
       clearInterval(updateBoardInterval);
-      if(!stopped) {
+      if (!stopped) {
         stopped = true;
         scoreBox.innerHTML = 'You got ' + score + ' points!';
         button.className = ('');
@@ -92,9 +89,7 @@
     // constructor function; this function is a template for all my objects
 
     var PieceConstructor = function(width, height, color, x, y) {
-
       // sets these params to properties of the object
-
       this.width = width;
       this.height = height;
       this.x = x;
@@ -211,9 +206,10 @@
       // the game area refreshes based on the param passed to timeforobstacle--
 
       myGameArea.ticker += 1;
+      // if statement that makes randomly sized obstacles
+      // every second
       if (myGameArea.ticker === 1 || timerForObstacleRelease(60)) {
         score += 20;
-        console.log(score + ' score ' + "ticker");
         scoreBox.innerHTML = score;
 
         // allows for random obstacle length
@@ -243,10 +239,8 @@
       // for loop that iterates through array of objects and brings them to the top of the
 
       for (var i = 0; i < platforms.length; i += 1) {
-
         // they are brought towards the top of the canvas because their
         // 'y' property is decremented by 2 pixes every time the game area is refreshed
-
         platforms[i].y += -2;
         platforms[i].update();
       }
@@ -258,6 +252,5 @@
     startGame();
     button.addEventListener('click', function() {
       window.location.reload();
-
     });
   });
