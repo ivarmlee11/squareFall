@@ -16,6 +16,10 @@ canvas {
   margin: 0 auto;
 }
 
+#topScores {
+
+}
+
 .hideThis {
   display: none;
 }
