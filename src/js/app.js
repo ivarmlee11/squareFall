@@ -17,6 +17,8 @@
 
     // my game area object which includes some properties with values
     // that are functions to start and end the game
+    // the object constructor and the structure of the for loop
+    // were directly inspired from http://www.w3schools.com/games/game_obstacles.asp
 
     var myGameArea = {
       canvas: document.createElement('canvas'),
@@ -29,12 +31,12 @@
         // game updates every 20 mil seconds
         updateBoardInterval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
-          // a property of .keys is checked to see if it exists or if it should be set to
-          // an empty array
+          // a property of .keys is assigned to myGameArea
+          // or to an empty array
           myGameArea.keys = (myGameArea.keys || []);
 
           // the keydown event is passed as a value to the keys property
-
+          // while keydown events are values of keys they are set to true
           myGameArea.keys[e.keyCode] = true;
         });
         window.addEventListener('keyup', function (e) {
@@ -47,8 +49,8 @@
       }
     };
 
-    // makes a new child in the firebase called the name the player
-    // entered at prompt
+    // makes a new child in the firebase called the name of the player
+    // entered at prompt screen
     // inside of the object there are two properties
     // one prop contains the score while the other contains the
     // player name
@@ -83,7 +85,7 @@
       });
     };
 
-    // stopped flg is changed to true here to stop the game
+    // stopped flag is changed to true here to stop the game
 
     var stopGame = function() {
       // the interval of 20 mili seconds is stopped
@@ -175,6 +177,7 @@
     };
 
     // controls player movement, checks for hits
+    // update game area is looped over every 20 mili
 
     var updateGameArea = function() {
       var width;
