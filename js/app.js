@@ -26,6 +26,7 @@
         this.context = this.canvas.getContext('2d');
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.ticker = 0;
+        console.log(myGameArea.ticker);
         // game updates every 20 mil seconds
         updateBoardInterval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
@@ -166,7 +167,6 @@
     // checks if the ticker and the time are equal
     // if they are equal, this timeForObstacleRelease runs
     // the code that creates new objects and draws them
-
     var timerForObstacleRelease = function(time) {
       if ((myGameArea.ticker / time) % 1 === 0) {
         return true;
@@ -219,7 +219,7 @@
       }
 
       // game ticker iterates by one every time the game area refreshes
-      // the game area refreshes based on the param passed to timeforobstacle--
+      // the obstacles are made based on the param passed to timeforobstacle--
 
       myGameArea.ticker += 1;
       // if statement that makes randomly sized obstacles
