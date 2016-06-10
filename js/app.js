@@ -69,8 +69,12 @@
       myFirebaseRef.on('value', function(snapshot) {
         var fireData = snapshot.val();
         for (var key in fireData) {
-          jsonDataArrayToBeSorted.push(fireData[key]);
+          console.log(key);
+           if (key.hasOwnProperty(score)) {
+            console.log('hey');
+          }
         }
+
         var sortedJson = jsonDataArrayToBeSorted.sort(function(obj1, obj2) {
           return obj2.score - obj1.score;
         });
@@ -270,3 +274,4 @@
       window.location.reload();
     });
   });
+
