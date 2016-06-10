@@ -69,10 +69,7 @@
       myFirebaseRef.on('value', function(snapshot) {
         var fireData = snapshot.val();
         for (var key in fireData) {
-          console.log(key);
-           if (key.hasOwnProperty(score)) {
-            console.log('hey');
-          }
+          jsonDataArrayToBeSorted.push(fireData[key]);
         }
 
         var sortedJson = jsonDataArrayToBeSorted.sort(function(obj1, obj2) {
