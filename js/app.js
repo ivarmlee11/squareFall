@@ -1,16 +1,14 @@
   // establish a firebase ref from which I can store and read data
 
-  var myFirebaseRef = new Firebase('https://squarefall.firebaseio.com/');
   document.addEventListener('DOMContentLoaded', function() {
+    var myFirebaseRef = new Firebase('https://squarefall.firebaseio.com/');
     var playerObject;
     var updateBoardInterval;
     var platforms = [];
     var score = 0;
     var scoreBox = document.getElementById('score');
-    var topScores = document.getElementById('topScores');
     var button = document.getElementById('reset');
     var jsonDataArrayToBeSorted = [];
-    var topTen;
     var playerName = prompt('Enter your name!');
     var stopped = false;
 
@@ -64,7 +62,7 @@
 
     // takes a snapshot of the firebase json file and
     // a for in loop iterates through the keys and pushes them to an empty array
-    /// the array is then sorted based on the score property from highest to lowest
+    // the array is then sorted based on the score property from highest to lowest
 
     var leaderBoardDisplay = function() {
       myFirebaseRef.on('value', function(snapshot) {
