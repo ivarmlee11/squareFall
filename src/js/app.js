@@ -20,7 +20,7 @@ var myGameArea = {
   clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
-  startTheGame: function() {
+  drawBoard: function() {
     updateBoardInterval = setInterval(this.updateGameArea, 20);
     this.canvas.width = 300;
     this.canvas.height = 350;
@@ -46,7 +46,7 @@ var myGameArea = {
     // flag for later use in our stopgame function
     stopped = false;
     playerObject = new PieceConstructor(15, 15, 'lightgray', 120, 10);
-    myGameArea.startTheGame();
+    myGameArea.drawBoard();
   },
   stopGame: function() {
     // stopped flag is changed to true here to stop the game
